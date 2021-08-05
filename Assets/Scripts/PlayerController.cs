@@ -4,8 +4,12 @@ public class PlayerController : MonoBehaviour
 {
     private float horizontalInput;
     private float verticalInput;
+
     private Rigidbody rb;
+
     public float speed = 1f;
+
+    private int score = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +44,16 @@ public class PlayerController : MonoBehaviour
         if (horizontalInput == -1)
         {
             rb.AddForce(Vector3.left * speed, ForceMode.VelocityChange);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Pickup"))
+        {    
+            score++;
+            Debug.Log($"Score: {score}");
+            Destroy(other.gameObject);
         }
     }
 }
