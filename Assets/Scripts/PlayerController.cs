@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -36,10 +37,8 @@ public class PlayerController : MonoBehaviour
         verticalInput = Input.GetAxis("Vertical");
         if (health == 0)
         {
-            Debug.Log("Game Over!");
-            SceneManager.LoadScene("Maze");
-            score = 0;
-            health = 5;
+            Lose();
+            StartCoroutine(LoadScene(3));
         }    
     }
 
@@ -84,10 +83,8 @@ public class PlayerController : MonoBehaviour
 
         if (other.CompareTag("Goal"))
         {    
-            winLoseBG.color = new Color32(0,255,0,255);
-            winLoseText.color = new Color32(0,0,0,255);
-            winLoseText.text = "You Win!";
-            winLoseBG.gameObject.SetActive(true);
+            Win();
+            StartCoroutine(LoadScene(3));
         }
     }
 
@@ -101,5 +98,29 @@ public class PlayerController : MonoBehaviour
     void SetHealthText()
     {
         healthText.text = "Health: " + health.ToString();
+    }
+
+    void Win()
+    {
+        winLoseBG.color = new Color32(0,255,0,255);
+        winLoseText.color = new Color32(0,0,0,255);
+        winLoseText.text = "You Win!";
+        winLoseBG.gameObject.SetActive(true);
+    }
+
+    void Lose()
+    {
+        winLoseBG.color = new Color32(255,0,0,255);
+        winLoseText.color = new Color32(255,255,255,255);
+        winLoseText.text = "Game Over!";
+        winLoseBG.gameObject.SetActive(true);
+    }
+
+    IEnumerator LoadScene(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        SceneManager.LoadScene("Maze");
+        score = 0;
+        health = 5;
     }
 }
