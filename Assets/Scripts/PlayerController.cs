@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour
 
     public Text scoreText;
 
+    public Text healthText;
+
+    public Image winLoseBG;
+
+    public Text winLoseText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -73,17 +79,27 @@ public class PlayerController : MonoBehaviour
         if (other.CompareTag("Trap"))
         {    
             health--;
-            Debug.Log($"Health: {health}");
+            SetHealthText();
         }
 
         if (other.CompareTag("Goal"))
         {    
-            Debug.Log("You win!");
+            winLoseBG.color = new Color32(0,255,0,255);
+            winLoseText.color = new Color32(0,0,0,255);
+            winLoseText.text = "You Win!";
+            winLoseBG.gameObject.SetActive(true);
         }
     }
 
+    // Updates player's score
     void SetScoreText()
     {
         scoreText.text = "Score: " + score.ToString();
+    }
+
+    // Updates player's health
+    void SetHealthText()
+    {
+        healthText.text = "Health: " + health.ToString();
     }
 }
