@@ -35,6 +35,10 @@ public class PlayerController : MonoBehaviour
     {
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
+        if(Input.GetButton("Cancel"))
+        {
+            SceneManager.LoadScene("menu");
+        }
         if (health == 0)
         {
             Lose();
